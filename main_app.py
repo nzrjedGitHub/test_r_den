@@ -9,6 +9,7 @@ from kivy.uix.textinput import TextInput
 from kivy.core.window import Window
 from kivy.uix.scrollview import ScrollView
 from instructions import txt_instruction, txt_test1, txt_test2, txt_test3, txt_sits
+from seconds import Seconds
 
 age = 7
 name = ""
@@ -65,6 +66,8 @@ class PulseScr(Screen):
         super().__init__(**kwargs)
 
         instr = Label(text=txt_test1)
+        self.lbl_sec = Seconds(3)
+        self.lbl_sec.bind(done=self.sec_finished)
 
         line = BoxLayout(size_hint=(0.8, None), height="30sp")
         lbl_result = Label(text="Введіть результат:", halign="right")
@@ -82,6 +85,13 @@ class PulseScr(Screen):
         outer.add_widget(self.btn)
 
         self.add_widget(outer)
+    
+    def sec_finished(self, *args):
+        self.next_screen = True
+        self.in_result.set_disabled(False)
+        self.btn.set_disabled(False)
+        self.btn.text = "Продовжити"
+        
     def next(self):
         self.manager.current = "sits"
 
