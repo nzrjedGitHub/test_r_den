@@ -65,6 +65,8 @@ class PulseScr(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
+        self.next_screen = False
+
         instr = Label(text=txt_test1)
         self.lbl_sec = Seconds(3)
         self.lbl_sec.bind(done=self.sec_finished)
@@ -78,11 +80,12 @@ class PulseScr(Screen):
         line.add_widget(lbl_result)
         line.add_widget(self.in_result)
         self.btn = Button(
-            text="Продовжити", size_hint=(0.3, 0.2), pos_hint={"center_x": 0.5}
+            text="Почати замір", size_hint=(0.3, 0.2), pos_hint={"center_x": 0.5}
         )
         self.btn.on_press = self.next
         outer = BoxLayout(orientation="vertical", padding=8, spacing=8)
         outer.add_widget(instr)
+        outer.add_widget(self.lbl_sec)
         outer.add_widget(line)
         outer.add_widget(self.btn)
 
@@ -95,7 +98,17 @@ class PulseScr(Screen):
         self.btn.text = "Продовжити"
 
     def next(self):
-        self.manager.current = "sits"
+        if self.next_screen == False:
+            self.btn.set_disabled(True)
+            self.lbl_sec.start()
+        else:
+            global p1
+            p1 = check_int(self.in_result.text)
+            if p1 == False or p1 <= 0:
+                p1 = 0
+                self.in_result.text = str(p1)
+            else:
+                self.manager.current = "sits"
 
 
 class CheckSits(Screen):
