@@ -72,6 +72,8 @@ class PulseScr(Screen):
         line = BoxLayout(size_hint=(0.8, None), height="30sp")
         lbl_result = Label(text="Введіть результат:", halign="right")
         self.in_result = TextInput(text="0", multiline=False)
+        self.in_result.set_disabled(True)
+
 
         line.add_widget(lbl_result)
         line.add_widget(self.in_result)
@@ -91,7 +93,7 @@ class PulseScr(Screen):
         self.in_result.set_disabled(False)
         self.btn.set_disabled(False)
         self.btn.text = "Продовжити"
-        
+
     def next(self):
         self.manager.current = "sits"
 
